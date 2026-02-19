@@ -165,7 +165,7 @@ export default function DoctorForm() {
         <button
           disabled={isSubmitting}
           type="submit"
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-semibold"
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 my-3 rounded-xl font-semibold"
         >
           {isSubmitting ? "Saving..." : "Create Doctor"}
         </button>
