@@ -4,16 +4,15 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-import InputField from "../../component/genericInput/FormInput";
+import InputField from "@/component/genericInput/FormInput";
 
-import { LoginFormData } from "../../types/common";
-import { loginValidationSchema } from "../../validation/loginSchema";
+import { LoginFormData } from "@/types/common";
+import { loginValidationSchema } from "@/validation/loginSchema";
 
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // ✅ React Icons
-import { Link } from "lucide-react";
 
 export default function LoginForm() {
-  // ✅ Toggle Password State
+  //  Toggle Password State
   const [showPassword, setShowPassword] = useState(false);
 
   const {
@@ -24,7 +23,7 @@ export default function LoginForm() {
     resolver: yupResolver(loginValidationSchema),
   });
 
-  // ✅ Submit Handler
+  // Submit Handler
   const onSubmit = async (data: LoginFormData) => {
     console.log("Login Data:", data);
     alert("Login Successful ✅");
@@ -37,7 +36,7 @@ export default function LoginForm() {
       </h2>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-        {/* ✅ Email Field */}
+        {/* Email Field */}
         <InputField
           label="Email Address"
           placeholder="Enter your email"

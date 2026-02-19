@@ -4,10 +4,10 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-import InputField from "../../component/genericInput/FormInput";
+import InputField from "@/component/genericInput/FormInput";
 
-import { LoginFormData } from "../../types/common";
-import { loginValidationSchema } from "../../validation/loginSchema";
+import { LoginFormData } from "@/types/common";
+import { loginValidationSchema } from "@/validation/loginSchema";
 
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // ✅ React Icons
 import { Link } from "lucide-react";

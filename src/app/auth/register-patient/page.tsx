@@ -3,11 +3,11 @@
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { PatientFormData } from "../../types/patient";
-import { patientValidationSchema } from "../../validation/patientSchema";
-import InputField from "../../component/genericInput/FormInput";
-import { FormDataType } from "@/app/types/common";
-import ImageInput from "../../component/genericInput/ImageInput";
+import { PatientFormData } from "@/types/patient";
+import { patientValidationSchema } from "@/validation/patientSchema";
+import InputField from "@/component/genericInput/FormInput";
+import { FormDataType } from "@/types/common";
+import ImageInput from "@/component/genericInput/ImageInput";
 
 export default function PatientForm() {
   const [formData, setFormData] = useState<FormDataType>({
