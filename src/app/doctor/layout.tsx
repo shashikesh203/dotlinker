@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Sidebar from '@/component/doctor/Sidebar';
-import Navbar from '@/component/doctor/Navbar';
+import Navbar from '@/component/genericInput/Navbar';
 
 
 export default function DashboardLayout({
