@@ -4,12 +4,13 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-import InputField from "../../helper/FormInput";
+import InputField from "../../component/genericInput/FormInput";
 
 import { LoginFormData } from "../../types/common";
 import { loginValidationSchema } from "../../validation/loginSchema";
 
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // ✅ React Icons
+import { Link } from "lucide-react";
 
 export default function LoginForm() {
   // ✅ Toggle Password State
@@ -32,7 +33,7 @@ export default function LoginForm() {
   return (
     <div className="max-w-xl mx-auto mt-16 bg-white shadow-xl rounded-2xl p-8">
       <h2 className="text-2xl font-bold mb-6 text-gray-800 text-center">
-        Login Account
+        Doctor Login
       </h2>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
@@ -85,6 +86,16 @@ export default function LoginForm() {
         >
           {isSubmitting ? "Logging in..." : "Login"}
         </button>
+        {/* Register Redirect */}
+        <p className="text-center text-sm text-gray-600 mt-4">
+          Don’t have an account?{" "}
+          <a
+            href="/auth/register-doctor"
+            className="text-blue-600 font-semibold hover:underline"
+          >
+            Register
+          </a>
+        </p>
       </form>
     </div>
   );

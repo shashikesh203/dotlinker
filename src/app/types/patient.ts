@@ -3,6 +3,6 @@ export interface PatientFormData {
   email: string;
   age: number;
   password: string;
-  patient_profile: string;
+  patient_profile: string | File;
 }
 

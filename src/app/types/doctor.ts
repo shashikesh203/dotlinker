@@ -6,6 +6,6 @@ export interface DoctorFormData {
   startTime: string;
   endTime: string;
   description: string;
-  doctor_profile: string;
+  doctor_profile: File | string;
 }
 

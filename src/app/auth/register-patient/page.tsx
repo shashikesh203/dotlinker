@@ -1,20 +1,23 @@
 "use client";
 
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-
 import { PatientFormData } from "../../types/patient";
 import { patientValidationSchema } from "../../validation/patientSchema";
-
-import InputField from "../../helper/FormInput";
+import InputField from "../../component/genericInput/FormInput";
+import { FormDataType } from "@/app/types/common";
+import ImageInput from "../../component/genericInput/ImageInput";
 
 export default function PatientForm() {
-  const [preview, setPreview] = useState<string | null>(null);
+  const [formData, setFormData] = useState<FormDataType>({
+    patientImage: null,
+  });
 
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors, isSubmitting },
   } = useForm<PatientFormData>({
     resolver: yupResolver(patientValidationSchema),
@@ -34,7 +37,7 @@ export default function PatientForm() {
       placeholder: "Enter patient email",
       type: "text",
     },
-     {
+    {
       name: "age",
       label: "Age",
       placeholder: "Enter age",
@@ -47,12 +50,6 @@ export default function PatientForm() {
       type: "password",
     },
   ] as const;
-
-  // Preview Handler
-  const handleImagePreview = (file: File) => {
-    const url = URL.createObjectURL(file);
-    setPreview(url);
-  };
 
   // Submit Handler
   const onSubmit = async (data: PatientFormData) => {
@@ -90,36 +87,26 @@ export default function PatientForm() {
           />
         ))}
 
-      
-
         {/* Image Upload */}
-        <div>
-          <label className="block font-medium">Patient Profile Image</label>
-
-          <input
-            type="file"
-            accept="image/*"
-            {...register("patient_profile")}
-            onChange={(e) => {
-              if (e.target.files?.[0]) {
-                handleImagePreview(e.target.files[0]);
-              }
-            }}
-            className="w-full border p-3 rounded-lg mt-1"
+        <div className="justify-center text my-6">
+          <Controller
+            name="patient_profile"
+            control={control}
+            render={({ field }) => (
+              <ImageInput
+                name={field.name}
+                className="w-40 h-40"
+                formData={formData}
+                setFormData={setFormData}
+                value={field.value}
+                onChange={field.onChange}
+              />
+            )}
           />
 
-          <p className="text-red-500 text-sm">
-            {errors.patient_profile?.message}
+          <p className="text-red-500 text-xs text-center mt-1">
+            {errors.patient_profile?.message as string}
           </p>
-
-          {/* Preview */}
-          {preview && (
-            <img
-              src={preview}
-              alt="Preview"
-              className="mt-4 w-32 h-32 rounded-full object-cover border"
-            />
-          )}
         </div>
 
         {/* Submit */}
@@ -130,6 +117,15 @@ export default function PatientForm() {
         >
           {isSubmitting ? "Saving..." : "Create Patient"}
         </button>
+        <p className="text-center text-sm text-gray-600 mt-4">
+          Already have an account?{" "}
+          <a
+            href="/auth/patient-login"
+            className="text-blue-600 font-semibold hover:underline"
+          >
+            Login
+          </a>
+        </p>
       </form>
     </div>
   );

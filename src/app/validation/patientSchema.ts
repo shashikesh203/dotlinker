@@ -12,6 +12,9 @@ export const patientValidationSchema = yup.object({
     .email("Enter a valid email"),
   age: yup
     .number()
+    .transform((value, originalValue) =>
+      originalValue === "" ? undefined : value,
+    )
     .required("Age is required")
     .min(0, "Age cannot be negative")
     .max(120, "Age must be less than 120"),
@@ -21,7 +24,16 @@ export const patientValidationSchema = yup.object({
     .required("Password is required")
     .min(6, "Password must be at least 6 characters"),
 
- patient_profile: yup
-     .string()
-     .required("Profile image URL is required"),
+  patient_profile: yup
+    .mixed<File | string>()
+    .required("Image is required")
+    .test("fileType", "Only jpg, jpeg, png allowed", (value) => {
+      if (typeof value === "string") return true;
+
+      if (value instanceof File) {
+        return ["image/jpeg", "image/png", "image/jpg"].includes(value.type);
+      }
+
+      return false;
+    }),
 });

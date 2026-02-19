@@ -1,20 +1,25 @@
 "use client";
 
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-
 import { DoctorFormData } from "../../types/doctor";
 import { doctorValidationSchema } from "../../validation/doctorSchema";
+import InputField from "../../component/genericInput/FormInput";
+import ImageInput from "../../component/genericInput/ImageInput";
+import { FormDataType } from "../../types/common";
+import TimeInputField from "../../component/genericInput/TimeInput";
 
-import InputField from "../../helper/FormInput";
 
 export default function DoctorForm() {
-  const [preview, setPreview] = useState<string | null>(null);
+  const [formData, setFormData] = useState<FormDataType>({
+    doctorImage: null,
+  });
 
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors, isSubmitting },
   } = useForm<DoctorFormData>({
     resolver: yupResolver(doctorValidationSchema),
@@ -47,12 +52,6 @@ export default function DoctorForm() {
       type: "text",
     },
   ] as const;
-
-  // Preview Handler
-  const handleImagePreview = (file: File) => {
-    const url = URL.createObjectURL(file);
-    setPreview(url);
-  };
 
   // Submit Handler
   const onSubmit = async (data: DoctorFormData) => {
@@ -92,29 +91,19 @@ export default function DoctorForm() {
 
         {/* Start & End Time */}
         <div className="grid grid-cols-2 gap-4">
-          <div>
-            <label className="block font-medium">Start Time</label>
-            <input
-              type="time"
-              {...register("startTime")}
-              className="w-full border p-3 rounded-lg mt-1"
-            />
-            <p className="text-red-500 text-sm">
-              {errors.startTime?.message}
-            </p>
-          </div>
+          <TimeInputField
+            label="Start Time"
+            name="startTime"
+            register={register}
+            error={errors.startTime}
+          />
 
-          <div>
-            <label className="block font-medium">End Time</label>
-            <input
-              type="time"
-              {...register("endTime")}
-              className="w-full border p-3 rounded-lg mt-1"
-            />
-            <p className="text-red-500 text-sm">
-              {errors.endTime?.message}
-            </p>
-          </div>
+          <TimeInputField
+            label="End Time"
+            name="endTime"
+            register={register}
+            error={errors.endTime}
+          />
         </div>
 
         {/* Description */}
@@ -126,39 +115,29 @@ export default function DoctorForm() {
             className="w-full border p-3 rounded-lg mt-1"
             rows={4}
           />
-          <p className="text-red-500 text-sm">
-            {errors.description?.message}
-          </p>
+          <p className="text-red-500 text-sm">{errors.description?.message}</p>
         </div>
 
         {/* Image Upload */}
-        <div>
-          <label className="block font-medium">Doctor Profile Image</label>
-
-          <input
-            type="file"
-            accept="image/*"
-            {...register("doctor_profile")}
-            onChange={(e) => {
-              if (e.target.files?.[0]) {
-                handleImagePreview(e.target.files[0]);
-              }
-            }}
-            className="w-full border p-3 rounded-lg mt-1"
+        <div className="justify-center text my-6">
+          <Controller
+            name="doctor_profile"
+            control={control}
+            render={({ field }) => (
+              <ImageInput
+                name={field.name}
+                className="w-40 h-40"
+                formData={formData}
+                setFormData={setFormData}
+                value={field.value}
+                onChange={field.onChange}
+              />
+            )}
           />
 
-          <p className="text-red-500 text-sm">
-            {errors.doctor_profile?.message}
+          <p className="text-red-500 text-xs text-center mt-1">
+            {errors.doctor_profile?.message as string}
           </p>
-
-          {/* Preview */}
-          {preview && (
-            <img
-              src={preview}
-              alt="Preview"
-              className="mt-4 w-32 h-32 rounded-full object-cover border"
-            />
-          )}
         </div>
 
         {/* Submit */}
@@ -169,6 +148,15 @@ export default function DoctorForm() {
         >
           {isSubmitting ? "Saving..." : "Create Doctor"}
         </button>
+        <p className="text-center text-sm text-gray-600 mt-4">
+          Already have an account?{"  "}
+          <a
+            href="/auth/doctor-login"
+            className="text-blue-600 font-semibold hover:underline"
+          >
+            Login
+          </a>
+        </p>
       </form>
     </div>
   );
