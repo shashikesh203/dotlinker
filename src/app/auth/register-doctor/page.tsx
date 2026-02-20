@@ -11,6 +11,8 @@ import { FormDataType } from "@/types/common";
 import TimeInputField from "@/component/genericInput/TimeInputField";
 import axiosClient from "@/lib/axiosClient";
 import { useRouter } from "next/navigation";
+import SingleSelectOptions from "@/component/genericInput/SingleSelectOption";
+import { DoctorSpecialization } from "@/enums/doctorSpecialization";
 
 export default function DoctorForm() {
   const [formData, setFormData] = useState<FormDataType>({
@@ -47,13 +49,8 @@ export default function DoctorForm() {
       placeholder: "Enter password",
       type: "password",
     },
-    {
-      name: "specialization",
-      label: "Specialization",
-      placeholder: "Cardiologist, Dentist...",
-      type: "text",
-    },
   ] as const;
+ 
 
   // Submit Handler
   const onSubmit = async (data: DoctorFormData) => {
@@ -105,6 +102,30 @@ export default function DoctorForm() {
             error={errors[field.name]}
           />
         ))}
+        <div>
+  <Controller
+    name="specialization"
+    control={control}
+    defaultValue=""
+    render={({ field }) => (
+      <SingleSelectOptions
+        label="Doctor Specialization"
+        name={field.name}
+        value={field.value || ""}
+        onChange={field.onChange}
+        options={Object.values(DoctorSpecialization).map((spec) => ({
+          label: spec,
+          value: spec,
+        }))}
+        placeholder="Select specialization"
+        required
+      />
+    )}
+  />
+  <p className="text-red-500 text-xs mt-1">
+    {errors.specialization?.message as string}
+  </p>
+</div>
 
         {/* Start & End Time */}
         <div className="grid grid-cols-2 gap-4">

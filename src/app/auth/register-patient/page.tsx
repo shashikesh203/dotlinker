@@ -122,7 +122,7 @@ export default function PatientForm() {
            
           </div>
         ))}
-        <>
+        <div>
                 <Controller
                   name="gender"
                   control={control}
@@ -142,7 +142,7 @@ export default function PatientForm() {
                 <p className="text-red-500 text-xs mt-1">
                   {errors.gender?.message as string}
                 </p>
-              </>
+              </div>
 
         {/* Image Upload */}
         <div className="justify-center text my-6">

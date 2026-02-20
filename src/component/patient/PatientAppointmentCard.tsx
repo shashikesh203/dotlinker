@@ -4,6 +4,7 @@ import { BookingStatus } from "@/enums/bookingStatus";
 import axiosClient from "@/lib/axiosClient";
 import { useState } from "react";
 import { FaUserMd, FaClock, FaEnvelope } from "react-icons/fa";
+import { GoProjectRoadmap } from "react-icons/go";
 import { toast } from "react-toastify";
 
 interface Appointment {
@@ -26,7 +27,7 @@ interface Props {
   appointment: Appointment;
 }
 
-export default function PatientAppointmentCard({  appointment }: Props) {
+export default function PatientAppointmentCard({ appointment }: Props) {
   const [loading, setLoading] = useState(false);
   const [bookingStatus, setBookingStatus] = useState(appointment.status);
 
@@ -35,9 +36,7 @@ export default function PatientAppointmentCard({  appointment }: Props) {
   const handleBookingCancellation = async () => {
     try {
       setLoading(true);
-      await axiosClient.post(
-        `cancel-appointment/${appointment._id}`,
-      );
+      await axiosClient.post(`cancel-appointment/${appointment._id}`);
       setBookingStatus(BookingStatus.CANCELLED);
       toast.success("Appointment cancelled successfully");
     } catch (error) {
@@ -75,9 +74,10 @@ export default function PatientAppointmentCard({  appointment }: Props) {
                 Dr. {doctor.name}
               </h2>
 
-              <span className="inline-block mt-1 text-xs bg-blue-100 text-blue-700 px-3 py-1 rounded-full font-medium">
-                {doctor.specialization}
-              </span>
+              <div className="flex items-center gap-2 mt-2 text-sm bg-blue-50 text-blue-700 px-3 py-1 rounded-full w-fit shadow-sm">
+                <GoProjectRoadmap className="text-blue-500" />
+                <span>{doctor.specialization || "N/A"} years old</span>
+              </div>
             </div>
           </div>
 
@@ -109,9 +109,10 @@ export default function PatientAppointmentCard({  appointment }: Props) {
               className={`text-xs px-3 py-1 rounded-full font-medium ${
                 bookingStatus === "PENDING"
                   ? "bg-blue-300 text-white"
-                  : (bookingStatus === "CANCELLED" || bookingStatus === "REJECTED")
-                  ? "bg-red-400 text-white"
-                  : "bg-green-100 text-green-700"
+                  : bookingStatus === "CANCELLED" ||
+                      bookingStatus === "REJECTED"
+                    ? "bg-red-400 text-white"
+                    : "bg-green-100 text-green-700"
               }`}
             >
               {bookingStatus}
@@ -129,19 +130,25 @@ export default function PatientAppointmentCard({  appointment }: Props) {
             >
               {loading ? "Cancelling..." : "Cancel Appointment"}
             </button>
-          ) :([BookingStatus.CANCELLED, BookingStatus.REJECTED].includes(bookingStatus)) ? (
+          ) : [BookingStatus.CANCELLED, BookingStatus.REJECTED].includes(
+              bookingStatus,
+            ) ? (
             <button
               disabled
               className="w-full bg-gray-300 text-gray-600 py-2.5 rounded-xl font-semibold shadow-md cursor-not-allowed"
             >
-              {bookingStatus === BookingStatus.CANCELLED ? "Cancelled" : "Rejected"}
+              {bookingStatus === BookingStatus.CANCELLED
+                ? "Cancelled"
+                : "Rejected"}
             </button>
           ) : (
             <button
               disabled
               className="w-full bg-green-100 text-green-700 py-2.5 rounded-xl font-semibold shadow-md cursor-not-allowed"
             >
-              {bookingStatus === BookingStatus.COMPLETED ? "Completed" : "Approved"}
+              {bookingStatus === BookingStatus.COMPLETED
+                ? "Completed"
+                : "Approved"}
             </button>
           )}
         </div>

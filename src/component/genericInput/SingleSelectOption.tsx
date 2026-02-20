@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 export type Option = {
   label: string;
@@ -8,7 +8,7 @@ export type Option = {
 type SingleSelectOptionsProps = {
   label?: string;
   name: string;
-  value: string | number;
+  value: any;
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   options: Option[];
   placeholder?: string;
@@ -23,10 +23,10 @@ export default function SingleSelectOptions({
   value,
   onChange,
   options,
-  placeholder = 'Select an option',
+  placeholder = "Select an option",
   required,
   disabled,
-  className = '',
+  className = "",
 }: SingleSelectOptionsProps) {
   return (
     <div className={`flex flex-col gap-1.5 ${className}`}>
@@ -64,13 +64,13 @@ export default function SingleSelectOptions({
           )}
 
           {options
-            .filter(opt => opt.value !== undefined && opt.value !== null) // ✅ safe filter
+            .filter((opt) => opt.value !== undefined && opt.value !== null) // ✅ safe filter
             .map((opt, index) => (
               <option
                 key={opt.value !== undefined ? String(opt.value) : index} // ✅ fallback key
-                value={opt.value || ''}
+                value={opt.value || ""}
               >
-                {opt.label || ''}
+                {opt.label || ""}
               </option>
             ))}
         </select>

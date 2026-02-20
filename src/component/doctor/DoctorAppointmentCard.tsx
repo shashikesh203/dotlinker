@@ -3,7 +3,8 @@
 import { BookingStatus } from "@/enums/bookingStatus";
 import axiosClient from "@/lib/axiosClient";
 import { useState } from "react";
-import { FaUserMd, FaClock, FaEnvelope } from "react-icons/fa";
+import { LiaBirthdayCakeSolid } from "react-icons/lia";
+import { FaUserMd, FaMale, FaEnvelope } from "react-icons/fa";
 import { toast } from "react-toastify";
 
 interface Appointment {
@@ -18,7 +19,6 @@ interface Appointment {
     gender?: string;
     patient_profile?: string;
   };
- 
 }
 
 interface Props {
@@ -33,66 +33,75 @@ export default function DoctorAppointmentCard({ appointment }: Props) {
   const patient = appointment.patientDetails;
 
   const handleBookingStatusChange = async (bookingStatus: BookingStatus) => {
-  try {
-    setLoading(true);
-    await axiosClient.post(`/update-appointment/${appointment._id}`, { status: bookingStatus });
-    setBookingStatus(bookingStatus);
-    toast.success(`Appointment ${bookingStatus.toLowerCase()}`);
-  } catch (error) {
-    toast.error("Something went wrong");
-  } finally {
-    setLoading(false);
-  }
-};
-
-
+    try {
+      setLoading(true);
+      await axiosClient.post(`/update-appointment/${appointment._id}`, {
+        status: bookingStatus,
+      });
+      setBookingStatus(bookingStatus);
+      toast.success(`Appointment ${bookingStatus.toLowerCase()}`);
+    } catch (error) {
+      toast.error("Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <div className="bg-white rounded-3xl shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden flex flex-col">
+    <div className="group bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 overflow-hidden flex flex-col transform hover:-translate-y-1">
       {/* Top gradient */}
-      <div className="h-2 bg-gradient-to-r from-blue-600 to-indigo-600"></div>
+      <div className="h-2 bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-600"></div>
 
       {/* Card Content */}
       <div className="p-6 flex-1 flex flex-col justify-between">
         <div>
-          {/* Doctor Header */}
+          {/* Patient Header */}
           <div className="flex items-center gap-4">
-             <div className="w-16 h-16 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center border">
-            {patient.patient_profile ? (
-              <img
-                src={patient.patient_profile}
-                alt={patient.name}
-                className="w-full h-full object-cover"
-              />
-            ) : (
-              <FaUserMd className="text-3xl text-blue-600" />
-            )}
-          </div>
+            <div className="w-20 h-20 rounded-full overflow-hidden bg-gradient-to-br from-blue-100 to-indigo-100 flex items-center justify-center border-2 border-blue-200 shadow-md">
+              {patient.patient_profile ? (
+                <img
+                  src={patient.patient_profile}
+                  alt={patient.name}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <FaUserMd className="text-4xl text-blue-600" />
+              )}
+            </div>
 
             <div>
-              <h2 className="text-lg font-semibold text-gray-800">
-                Dr. {patient.name}
+              <h2 className="text-xl font-bold text-gray-800 group-hover:text-blue-600 transition">
+                {patient.name}
               </h2>
 
-              <span className="inline-block mt-1 text-xs bg-blue-100 text-blue-700 px-3 py-1 rounded-full font-medium">
-                {patient.age} years old
-              </span>
+              {/* Age with Icon */}
+              <div className="flex items-center gap-2 mt-2 text-sm bg-blue-50 text-blue-700 px-3 py-1 rounded-full w-fit shadow-sm">
+                <LiaBirthdayCakeSolid className="text-blue-500" />
+                <span>{patient.age || "N/A"} years old</span>
+              </div>
             </div>
           </div>
 
-          
-          <p className="mt-4 text-sm text-gray-600 leading-relaxed line-clamp-2 min-h-[2.5rem]">
-            {patient.gender || "Gender not specified"}
-          </p>
+          {/* Gender / Specialization Section */}
+          <div className="mt-4 flex items-center gap-2 text-gray-600">
+            <FaMale className="text-indigo-500" />
+            <span className="text-sm font-medium">
+              {patient.gender || "Gender not specified"}
+            </span>
+          </div>
 
-          <div className="mt-4">
+          {/* Status Badge */}
+          <div className="mt-5">
             <span
-              className={`text-xs px-3 py-1 rounded-full font-medium ${
+              className={`text-xs px-4 py-1.5 rounded-full font-semibold tracking-wide shadow-sm ${
                 bookingStatus === "PENDING"
-                  ? "bg-blue-300 text-white"
-                  : (bookingStatus === "CANCELLED" || bookingStatus === "REJECTED")
-                  ? "bg-red-400 text-white"
-                  : "bg-green-100 text-green-700"
+                  ? "bg-yellow-100 text-yellow-700"
+                  : bookingStatus === "CANCELLED" ||
+                      bookingStatus === "REJECTED"
+                    ? "bg-red-100 text-red-600"
+                    : bookingStatus === "APPROVED"
+                      ? "bg-blue-100 text-blue-700"
+                      : "bg-green-100 text-green-700"
               }`}
             >
               {bookingStatus}
@@ -100,57 +109,62 @@ export default function DoctorAppointmentCard({ appointment }: Props) {
           </div>
         </div>
 
+        {/* Buttons */}
         <div className="mt-6 flex gap-3">
-  {bookingStatus === BookingStatus.PENDING && (
-    <>
-      <button
-        onClick={() => handleBookingStatusChange(BookingStatus.APPROVED)}
-        disabled={loading}
-        className="flex-1 bg-green-600 hover:bg-green-700 text-white py-2.5 rounded-xl font-semibold transition disabled:opacity-50 cursor-pointer"
-      >
-        Approve
-      </button>
+          {bookingStatus === BookingStatus.PENDING && (
+            <>
+              <button
+                onClick={() =>
+                  handleBookingStatusChange(BookingStatus.APPROVED)
+                }
+                disabled={loading}
+                className="flex-1 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white py-2.5 rounded-xl font-semibold transition-all duration-300 disabled:opacity-50 shadow-md hover:shadow-lg"
+              >
+                Approve
+              </button>
 
-      <button
-        onClick={() => handleBookingStatusChange(BookingStatus.REJECTED)}
-        disabled={loading}
-        className="flex-1 bg-red-600 hover:bg-red-700 text-white py-2.5 rounded-xl font-semibold transition disabled:opacity-50 cursor-pointer"
-      >
-        Reject
-      </button>
-    </>
-  )}
+              <button
+                onClick={() =>
+                  handleBookingStatusChange(BookingStatus.REJECTED)
+                }
+                disabled={loading}
+                className="flex-1 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white py-2.5 rounded-xl font-semibold transition-all duration-300 disabled:opacity-50 shadow-md hover:shadow-lg"
+              >
+                Reject
+              </button>
+            </>
+          )}
 
-  {bookingStatus === BookingStatus.APPROVED && (
-    <button
-      onClick={() => handleBookingStatusChange(BookingStatus.COMPLETED)}
-      disabled={loading}
-      className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-xl font-semibold transition disabled:opacity-50 cursor-pointer"
-    >
-      Mark as Completed
-    </button>
-  )}
+          {bookingStatus === BookingStatus.APPROVED && (
+            <button
+              onClick={() => handleBookingStatusChange(BookingStatus.COMPLETED)}
+              disabled={loading}
+              className="w-full bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white py-2.5 rounded-xl font-semibold transition-all duration-300 disabled:opacity-50 shadow-md hover:shadow-lg"
+            >
+              Mark as Completed
+            </button>
+          )}
 
-  {[BookingStatus.REJECTED, BookingStatus.CANCELLED].includes(
-    bookingStatus
-  ) && (
-    <button
-      disabled
-      className="w-full bg-gray-300 text-gray-600 py-2.5 rounded-xl font-semibold cursor-not-allowed"
-    >
-      {bookingStatus}
-    </button>
-  )}
+          {[BookingStatus.REJECTED, BookingStatus.CANCELLED].includes(
+            bookingStatus,
+          ) && (
+            <button
+              disabled
+              className="w-full bg-gray-200 text-gray-600 py-2.5 rounded-xl font-semibold cursor-not-allowed"
+            >
+              {bookingStatus}
+            </button>
+          )}
 
-  {bookingStatus === BookingStatus.COMPLETED && (
-    <button
-      disabled
-      className="w-full bg-green-100 text-green-700 py-2.5 rounded-xl font-semibold cursor-not-allowed"
-    >
-      Completed
-    </button>
-  )}
-</div>
+          {bookingStatus === BookingStatus.COMPLETED && (
+            <button
+              disabled
+              className="w-full bg-green-100 text-green-700 py-2.5 rounded-xl font-semibold cursor-not-allowed"
+            >
+              Completed
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );

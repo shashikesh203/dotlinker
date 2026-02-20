@@ -3,7 +3,9 @@
 import axiosClient from "@/lib/axiosClient";
 import { useState } from "react";
 import { FaUserMd, FaClock, FaEnvelope } from "react-icons/fa";
- import { toast } from 'react-toastify';
+import { GoProjectRoadmap } from "react-icons/go";
+import { LiaBirthdayCakeSolid } from "react-icons/lia";
+import { toast } from "react-toastify";
 
 interface Doctor {
   _id: string;
@@ -21,7 +23,10 @@ interface Props {
   handleBookingSuccess: (showSuccessBooking: boolean) => void;
 }
 
-export default function DoctorBookingCard({ doctor, handleBookingSuccess }: Props) {
+export default function DoctorBookingCard({
+  doctor,
+  handleBookingSuccess,
+}: Props) {
   const [loading, setLoading] = useState(false);
   const handleBooking = async () => {
     const token = localStorage.getItem("token");
@@ -33,19 +38,18 @@ export default function DoctorBookingCard({ doctor, handleBookingSuccess }: Prop
     setLoading(true);
     try {
       await axiosClient.post("create-appointment", {
-      doctorId: doctor._id,
+        doctorId: doctor._id,
       });
 
       handleBookingSuccess(true);
     } catch (error) {
       console.log("error", error);
-      
     } finally {
       setLoading(false);
     }
   };
 
-return (
+  return (
     <div className="bg-white rounded-3xl shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden">
       {/* Top Gradient Strip */}
       <div className="h-2 bg-gradient-to-r from-blue-600 to-indigo-600"></div>
@@ -70,9 +74,10 @@ return (
               Dr. {doctor.name}
             </h2>
 
-            <span className="inline-block mt-1 text-xs bg-blue-100 text-blue-700 px-3 py-1 rounded-full font-medium">
-              {doctor.specialization}
-            </span>
+            <div className="flex items-center gap-2 mt-2 text-sm bg-blue-50 text-blue-700 px-3 py-1 rounded-full w-fit shadow-sm">
+              <GoProjectRoadmap className="text-blue-500" />
+              <span>{doctor.specialization || "N/A"} years old</span>
+            </div>
           </div>
         </div>
 
@@ -111,5 +116,4 @@ return (
       </div>
     </div>
   );
-  
 }
