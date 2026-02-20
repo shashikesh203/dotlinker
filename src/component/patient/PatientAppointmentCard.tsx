@@ -14,9 +14,9 @@ interface Appointment {
     specialization: string;
     startTime: string;
     endTime: string;
-    doctor_profile?: string;
     email?: string;
     description?: string;
+    doctor_profile?: string;
   };
   status: BookingStatus;
 }
@@ -26,7 +26,7 @@ interface Props {
   appointment: Appointment;
 }
 
-export default function PatientAppointmentCard({ key, appointment }: Props) {
+export default function PatientAppointmentCard({  appointment }: Props) {
   const [loading, setLoading] = useState(false);
   const [bookingStatus, setBookingStatus] = useState(appointment.status);
 

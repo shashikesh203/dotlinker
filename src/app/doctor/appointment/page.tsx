@@ -10,6 +10,7 @@ interface  PatientDetails {
     name: string;
     age?: number;
     gender?: string;
+    patient_profile?: string;
   };
 
 interface Appointment {

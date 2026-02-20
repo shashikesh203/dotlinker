@@ -64,19 +64,6 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
             <MdCoPresent className="w-5 h-5 flex-shrink-0" />
             <span>Appointments</span>
           </Link>
-          <Link
-            href="/doctor/history"
-            onClick={isOpen ? onClose : undefined}
-            className="flex items-center gap-3 px-4 py-3 text-white rounded-lg hover:bg-gray-700 transition-colors"
-            style={{
-              backgroundColor: isActive('/doctor/history')
-                ? '#4B5563'
-                : 'transparent',
-            }}
-          >
-            <MdOutlineHistoryEdu className="w-5 h-5 flex-shrink-0" />
-            <span>History</span>
-          </Link>
         </nav>
       </aside>
     </>

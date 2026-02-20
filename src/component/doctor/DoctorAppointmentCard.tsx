@@ -16,6 +16,7 @@ interface Appointment {
     name: string;
     age?: number;
     gender?: string;
+    patient_profile?: string;
   };
  
 }
@@ -25,7 +26,7 @@ interface Props {
   appointment: Appointment;
 }
 
-export default function DoctorAppointmentCard({ key, appointment }: Props) {
+export default function DoctorAppointmentCard({ appointment }: Props) {
   const [loading, setLoading] = useState(false);
   const [bookingStatus, setBookingStatus] = useState(appointment.status);
 
@@ -56,9 +57,17 @@ export default function DoctorAppointmentCard({ key, appointment }: Props) {
         <div>
           {/* Doctor Header */}
           <div className="flex items-center gap-4">
-            <div className="w-16 h-16 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center border">
-                <FaUserMd className="text-3xl text-blue-600" />
-            </div>
+             <div className="w-16 h-16 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center border">
+            {patient.patient_profile ? (
+              <img
+                src={patient.patient_profile}
+                alt={patient.name}
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <FaUserMd className="text-3xl text-blue-600" />
+            )}
+          </div>
 
             <div>
               <h2 className="text-lg font-semibold text-gray-800">
