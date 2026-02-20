@@ -3,6 +3,7 @@ import axios, {
   AxiosResponse,
   InternalAxiosRequestConfig,
 } from 'axios';
+import { toast } from 'react-toastify';
 
 // Base URL from env
 const BASE_URL =
@@ -47,9 +48,10 @@ axiosClient.interceptors.response.use(
   (response: AxiosResponse) => response,
   error => {
     if (error.response) {
-      console.error('API Error:', error.response.data);
+      console.log("Error Response:", error.response);
+     toast.error(error.response?.data.error || "Something went wrong");
     } else {
-      console.error('Network Error:', error.message);
+     toast.error(error.message|| "Something went wrong" );
     }
     return Promise.reject(error);
   }

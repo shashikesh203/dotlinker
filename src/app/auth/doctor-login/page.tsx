@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-import InputField from "@/component/genericInput/FormInput";
+import InputField from "@/component/genericInput/InputField";
 
 import { LoginFormData } from "@/types/common";
 import { loginValidationSchema } from "@/validation/loginSchema";

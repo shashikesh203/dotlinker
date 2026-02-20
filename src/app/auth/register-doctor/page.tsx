@@ -5,10 +5,10 @@ import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { DoctorFormData } from "@/types/doctor";
 import { doctorValidationSchema } from "@/validation/doctorSchema";
-import InputField from "@/component/genericInput/FormInput";
+import InputField from "@/component/genericInput/InputField";
 import ImageInput from "@/component/genericInput/ImageInput";
 import { FormDataType } from "@/types/common";
-import TimeInputField from "@/component/genericInput/TimeInput";
+import TimeInputField from "@/component/genericInput/TimeInputField";
 import axiosClient from "@/lib/axiosClient";
 import { useRouter } from "next/navigation";
 

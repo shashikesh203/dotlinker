@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import PatientAppointmentCard from "@/component/patient/appointmentCard";
+import PatientAppointmentCard from "@/component/patient/PatientAppointmentCard";
 import axiosClient from "@/lib/axiosClient";
 
 /* ------------------ TYPES ------------------ */

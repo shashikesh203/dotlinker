@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import axiosClient from "@/lib/axiosClient";
-import PatientProfileCard from "@/component/patient/profile";
+import PatientProfileCard from "@/component/patient/PatientProfileCard";
 
 interface PatientProfile {
   _id: string;

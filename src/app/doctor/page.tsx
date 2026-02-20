@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import DoctorProfileCard from "../../component/doctor/profile";
+import DoctorProfileCard from "../../component/doctor/DoctorProfileCard";
 import axiosClient from "@/lib/axiosClient";
 
 interface DoctorProfile {

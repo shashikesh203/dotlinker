@@ -5,12 +5,12 @@ import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { PatientFormData } from "@/types/patient";
 import { patientValidationSchema } from "@/validation/patientSchema";
-import InputField from "@/component/genericInput/FormInput";
+import InputField from "@/component/genericInput/InputField";
 import { FormDataType } from "@/types/common";
 import ImageInput from "@/component/genericInput/ImageInput";
 import { useRouter } from "next/navigation";
 import axiosClient from "@/lib/axiosClient";
-import SelectOptions from "@/component/genericInput/SingleSelectOption";
+import SingleSelectOptions from "@/component/genericInput/SingleSelectOption";
 
 export default function PatientForm() {
   const [formData, setFormData] = useState<FormDataType>({
@@ -128,7 +128,7 @@ export default function PatientForm() {
                   control={control}
                   defaultValue=""
                   render={({ field }) => (
-                    <SelectOptions
+                    <SingleSelectOptions
                       label="Gender"
                       name={field.name}
                       value={field.value || ""}

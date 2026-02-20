@@ -30,21 +30,16 @@ const ImageInput: React.FC<FileInputProps> = ({
 
   const file = value || formData[name];
 
-  // ✅ Populate preview from File OR backend URL
   useEffect(() => {
     if (!file) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setPreview(null);
       return;
     }
-
-    // ✅ Backend URL case
     if (typeof file === "string") {
       setPreview(file);
       return;
     }
-
-    // ✅ File upload case
     const url = URL.createObjectURL(file);
     setPreview(url);
 
@@ -56,20 +51,17 @@ const ImageInput: React.FC<FileInputProps> = ({
 
     setError("");
 
-    // 🔹 Update formData (for preview / UI)
     setFormData({
       ...formData,
       [name]: selectedFile,
     });
 
-    // 🔹 Call RHF onChange if provided
     onChange && onChange(selectedFile);
   };
 
   return (
     <div className="w-full border p-4">
       <div className="grid grid-cols-1 md:grid-cols-2 items-center">
-        {/* LEFT: File Input */}
         <div className="flex justify-center hidden sm:block">
           <div className="flex items-center gap-4">
             <label className="relative cursor-pointer">
@@ -83,7 +75,6 @@ const ImageInput: React.FC<FileInputProps> = ({
               </span>
             </label>
 
-            {/* ✅ File name / Already uploaded */}
             <span className="text-sm text-gray-600 truncate max-w-[200px]">
               {typeof file === "string"
                 ? "Already Uploaded"
@@ -94,7 +85,6 @@ const ImageInput: React.FC<FileInputProps> = ({
           {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
         </div>
 
-        {/* RIGHT: Image Preview */}
         <div className="flex justify-center">
           <div
             className={`${className} rounded-md border border-dashed flex items-center justify-center overflow-hidden bg-gray-50`}
@@ -113,7 +103,6 @@ const ImageInput: React.FC<FileInputProps> = ({
           </div>
         </div>
 
-        {/* MOBILE Upload Button */}
         <div className="flex justify-center sm:hidden mt-4">
           <div className="flex items-center gap-4">
             <label className="relative cursor-pointer">

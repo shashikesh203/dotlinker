@@ -3,6 +3,7 @@
 import axiosClient from "@/lib/axiosClient";
 import { useState } from "react";
 import { FaUserMd, FaClock, FaEnvelope } from "react-icons/fa";
+ import { toast } from 'react-toastify';
 
 interface Doctor {
   _id: string;
@@ -17,11 +18,11 @@ interface Doctor {
 
 interface Props {
   doctor: Doctor;
+  handleBookingSuccess: (showSuccessBooking: boolean) => void;
 }
 
-export default function DoctorBookingCard({ doctor }: Props) {
+export default function DoctorBookingCard({ doctor, handleBookingSuccess }: Props) {
   const [loading, setLoading] = useState(false);
-
   const handleBooking = async () => {
     const token = localStorage.getItem("token");
 
@@ -29,27 +30,22 @@ export default function DoctorBookingCard({ doctor }: Props) {
       alert("Please login first");
       return;
     }
-    const res = await axiosClient.post("create-appointment", {
-      doctorId: doctor._id,
-    });
-    const data = res.data.data;
+    setLoading(true);
     try {
-      setLoading(true);
+      await axiosClient.post("create-appointment", {
+      doctorId: doctor._id,
+      });
 
-      if (data.success) {
-        alert("Appointment booked ");
-      } else {
-        alert(data.message);
-      }
+      handleBookingSuccess(true);
     } catch (error) {
-      console.error(error);
-      alert("Something went wrong");
+      console.log("error", error);
+      
     } finally {
       setLoading(false);
     }
   };
 
-  return (
+return (
     <div className="bg-white rounded-3xl shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden">
       {/* Top Gradient Strip */}
       <div className="h-2 bg-gradient-to-r from-blue-600 to-indigo-600"></div>
@@ -108,11 +104,12 @@ export default function DoctorBookingCard({ doctor }: Props) {
         <button
           onClick={handleBooking}
           disabled={loading}
-          className="mt-6 w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-indigo-600 hover:to-blue-600 text-white py-2.5 rounded-xl font-semibold shadow-md transition"
+          className="mt-6 w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-indigo-600 hover:to-blue-600 text-white py-2.5 rounded-xl font-semibold shadow-md transition cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {loading ? "Booking..." : "Book Appointment"}
         </button>
       </div>
     </div>
   );
+  
 }

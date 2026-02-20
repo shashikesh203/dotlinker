@@ -5,7 +5,7 @@ export type Option = {
   value: string | number;
 };
 
-type SelectOptionsProps = {
+type SingleSelectOptionsProps = {
   label?: string;
   name: string;
   value: string | number;
@@ -17,7 +17,7 @@ type SelectOptionsProps = {
   className?: string;
 };
 
-export default function SelectOptions({
+export default function SingleSelectOptions({
   label,
   name,
   value,
@@ -27,7 +27,7 @@ export default function SelectOptions({
   required,
   disabled,
   className = '',
-}: SelectOptionsProps) {
+}: SingleSelectOptionsProps) {
   return (
     <div className={`flex flex-col gap-1.5 ${className}`}>
       {label && (
