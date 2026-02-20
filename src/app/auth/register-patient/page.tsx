@@ -179,7 +179,7 @@ export default function PatientForm() {
           Already have an account?{" "}
           <a
             href="/auth/patient-login"
-            className="text-blue-600 font-semibold hover:underline"
+            className="text-blue-600 font-semibold hover:underline cursor-pointer"
           >
             Login
           </a>

@@ -21,7 +21,7 @@ export default function RoleSelection() {
 
         {/* Doctor Card */}
         <div
-          onClick={() => router.push("/auth/register-doctor")}
+          onClick={() => router.push("/auth/doctor-login")}
           className="cursor-pointer bg-white/80 backdrop-blur-xl shadow-lg rounded-2xl p-8 flex flex-col items-center text-center 
           hover:shadow-2xl hover:scale-105 transition-all duration-300 border border-gray-200"
         >
@@ -35,7 +35,7 @@ export default function RoleSelection() {
 
           <button
             className="mt-6 px-6 py-2 bg-blue-600 text-white rounded-xl font-medium 
-            hover:bg-blue-700 transition"
+            hover:bg-blue-700 transition cursor-pointer"
           >
             Click Here →
           </button>
@@ -43,7 +43,7 @@ export default function RoleSelection() {
 
         {/* Patient Card */}
         <div
-          onClick={() => router.push("/auth/register-patient")}
+          onClick={() => router.push("/auth/patient-login")}
           className="cursor-pointer bg-white/80 backdrop-blur-xl shadow-lg rounded-2xl p-8 flex flex-col items-center text-center 
           hover:shadow-2xl hover:scale-105 transition-all duration-300 border border-gray-200"
         >
@@ -57,7 +57,7 @@ export default function RoleSelection() {
 
           <button
             className="mt-6 px-6 py-2 bg-green-600 text-white rounded-xl font-medium 
-            hover:bg-green-700 transition"
+            hover:bg-green-700 transition cursor-pointer"
           >
             Click Here →
           </button>

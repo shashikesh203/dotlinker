@@ -49,11 +49,15 @@ export default function DoctorsPage() {
     )
   }
   return (
-    <div className="min-h-screen bg-slate-100 p-8">
+    <div className=" bg-slate-100 p-8">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {doctors.map((doctor) => (
+        { doctors.length ?doctors.map((doctor) => (
           <DoctorBookingCard key={doctor._id} doctor={doctor} handleBookingSuccess={(showSuccessBooking: boolean) => setShowSuccessBooking(showSuccessBooking)} />
-        ))}
+        )): (
+          <div className="col-span-full text-center text-gray-500 mt-30 sm:mt-40 text-2xl font-semibold">
+            No doctors found. 
+          </div>
+      )}
       </div>
     </div>
   );

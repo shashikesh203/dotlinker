@@ -3,8 +3,7 @@
 import { useEffect, useState } from "react";
 import PatientAppointmentCard from "@/component/patient/PatientAppointmentCard";
 import axiosClient from "@/lib/axiosClient";
-
-/* ------------------ TYPES ------------------ */
+import { BookingStatus } from "@/enums/bookingStatus";
 
 interface DoctorDetails {
   name: string;
@@ -20,14 +19,12 @@ interface Appointment {
   _id: string;
   doctorId: string;
   patientId: string;
-  status: "PENDING" | "CONFIRMED";
+  status: BookingStatus;
   createdAt: string;
   doctorDetails: DoctorDetails;
 }
 
-/* ------------------ COMPONENT ------------------ */
-
-export default function DoctorsPage() {
+export default function AppointmentPage() {
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -36,8 +33,6 @@ export default function DoctorsPage() {
       try {
         const res = await axiosClient.get("get-patient-appointments");
         const data = res.data;
-
-        // assuming backend sends: { success: true, data: [...] }
         setAppointments(data.data);
       } catch (error) {
         console.error(error);
@@ -58,14 +53,18 @@ export default function DoctorsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-100 p-8">
+    <div className=" bg-slate-100 p-8">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {appointments.map((appointment) => (
+        {appointments.length ? appointments.map((appointment) => (
           <PatientAppointmentCard
             key={appointment._id}
             appointment={appointment}
           />
-        ))}
+        )): (
+          <div className="col-span-full text-center text-gray-500 mt-30 sm:mt-40 text-2xl font-semibold">
+            No appointments found.  
+          </div>
+        )}
       </div>
     </div>
   );

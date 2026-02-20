@@ -22,10 +22,11 @@ interface Appointment {
 }
 
 interface Props {
+  key: string;
   appointment: Appointment;
 }
 
-export default function PatientAppointmentCard({ appointment }: Props) {
+export default function PatientAppointmentCard({ key, appointment }: Props) {
   const [loading, setLoading] = useState(false);
   const [bookingStatus, setBookingStatus] = useState(appointment.status);
 
