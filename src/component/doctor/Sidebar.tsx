@@ -79,22 +79,6 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
             <span>History</span>
           </Link>
         </nav>
-
-        <div className="p-4 border-t border-gray-700">
-          <Link
-            href="/auth/register-doctor"
-            onClick={isOpen ? onClose : undefined}
-            className="flex items-center gap-3 px-4 py-3 text-white rounded-lg hover:bg-gray-700 transition-colors"
-            style={{
-              backgroundColor: isActive('/auth/register-doctor')
-                ? '#4B5563'
-                : 'transparent',
-            }}
-          >
-            <IoMdLogOut className="w-5 h-5 flex-shrink-0" />
-            <span>logout</span>
-          </Link>
-        </div>
       </aside>
     </>
   );

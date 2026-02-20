@@ -9,12 +9,14 @@ import InputField from "@/component/genericInput/FormInput";
 import ImageInput from "@/component/genericInput/ImageInput";
 import { FormDataType } from "@/types/common";
 import TimeInputField from "@/component/genericInput/TimeInput";
-
+import axiosClient from "@/lib/axiosClient";
+import { useRouter } from "next/navigation";
 
 export default function DoctorForm() {
   const [formData, setFormData] = useState<FormDataType>({
     doctorImage: null,
   });
+  const router = useRouter();
 
   const {
     register,
@@ -55,19 +57,34 @@ export default function DoctorForm() {
 
   // Submit Handler
   const onSubmit = async (data: DoctorFormData) => {
-    console.log("Doctor Data:", data);
-
-    const formData = new FormData();
+    const formDataObj = new FormData();
 
     Object.entries(data).forEach(([key, value]) => {
-      if (key === "doctor_profile") {
-        formData.append("doctor_profile", value[0]);
+      if (key === "doctor_profile" && value instanceof FileList) {
+        if (value.length > 0) {
+          formDataObj.append("doctor_profile", value[0]);
+        }
       } else {
-        formData.append(key, value as string);
+        formDataObj.append(key, value as string);
       }
     });
+    console.log("Submitting Doctor Form with data:", formDataObj);
+    try {
+      const response = await axiosClient.post("doctor-signup", formDataObj, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      const token = response?.data?.data?.token;
 
-    alert("Doctor Created Successfully ✅");
+      if (token) {
+        localStorage.setItem("token", token);
+        // Redirect after login
+        router.push("/doctor");
+      }
+    } catch (error) {
+      console.error("Error creating doctor:", error);
+    }
   };
 
   return (

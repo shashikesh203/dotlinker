@@ -10,10 +10,13 @@ import { LoginFormData } from "@/types/common";
 import { loginValidationSchema } from "@/validation/loginSchema";
 
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // ✅ React Icons
+import axiosClient from "@/lib/axiosClient";
+import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
   //  Toggle Password State
   const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter();
 
   const {
     register,
@@ -24,10 +27,23 @@ export default function LoginForm() {
   });
 
   // Submit Handler
-  const onSubmit = async (data: LoginFormData) => {
-    console.log("Login Data:", data);
-    alert("Login Successful ✅");
-  };
+const onSubmit = async (data: LoginFormData) => {
+  try {
+    const response = await axiosClient.post("doctor-signin", data);
+
+    // 👇 IMPORTANT (backend structure ke according)
+    const token = response?.data?.data?.token;
+
+    if (token) {
+      localStorage.setItem("token", token);
+      // Redirect after login
+      router.push("/doctor");
+    }
+  } catch (error: any) {
+    console.error("Login Failed:", error?.response?.data?.message);
+  }
+};
+
 
   return (
     <div className="max-w-xl mx-auto mt-16 bg-white shadow-xl rounded-2xl p-8">

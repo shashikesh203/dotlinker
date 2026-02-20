@@ -18,7 +18,12 @@ export const patientValidationSchema = yup.object({
     .required("Age is required")
     .min(0, "Age cannot be negative")
     .max(120, "Age must be less than 120"),
+  gender: yup
+    .string()
+    .required("Gender is required")
+    .oneOf(["male", "female", "other"], "Select a valid gender    option"),   
 
+    
   password: yup
     .string()
     .required("Password is required")

@@ -8,11 +8,16 @@ import { patientValidationSchema } from "@/validation/patientSchema";
 import InputField from "@/component/genericInput/FormInput";
 import { FormDataType } from "@/types/common";
 import ImageInput from "@/component/genericInput/ImageInput";
+import { useRouter } from "next/navigation";
+import axiosClient from "@/lib/axiosClient";
+import SelectOptions from "@/component/genericInput/SingleSelectOption";
 
 export default function PatientForm() {
   const [formData, setFormData] = useState<FormDataType>({
     patientImage: null,
   });
+
+  const router = useRouter();
 
   const {
     register,
@@ -23,7 +28,14 @@ export default function PatientForm() {
     resolver: yupResolver(patientValidationSchema),
   });
 
-  // Input Fields Config Array (Industry Standard)
+  // Gender Options
+  const genderOptions = [
+    { label: "Male", value: "male" },
+    { label: "Female", value: "female" },
+    { label: "Other", value: "other" },
+  ];
+
+  // Input Fields Config Array
   const basicFields = [
     {
       name: "name",
@@ -37,35 +49,56 @@ export default function PatientForm() {
       placeholder: "Enter patient email",
       type: "text",
     },
-    {
-      name: "age",
-      label: "Age",
-      placeholder: "Enter age",
-      type: "number",
-    },
+    
     {
       name: "password",
       label: "Password",
       placeholder: "Enter password",
       type: "password",
     },
+    {
+      name: "age",
+      label: "Age",
+      placeholder: "Enter age",
+      type: "number",
+    },
   ] as const;
 
   // Submit Handler
   const onSubmit = async (data: PatientFormData) => {
-    console.log("Patient Data:", data);
-
-    const formData = new FormData();
+    const formDataObj = new FormData();
 
     Object.entries(data).forEach(([key, value]) => {
-      if (key === "patient_profile") {
-        formData.append("patient_profile", value[0]);
+      if (key === "patient_profile" && value instanceof FileList) {
+        if (value.length > 0) {
+          formDataObj.append("patient_profile", value[0]);
+        }
       } else {
-        formData.append(key, value as string);
+        formDataObj.append(key, value as string);
       }
     });
+    console.log("Submitting Patient Form with data:", formDataObj);
 
-    alert("Patient Created Successfully ✅");
+    try {
+      const response = await axiosClient.post(
+        "patient-signup",
+        formDataObj,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      const token = response?.data?.data?.token;
+
+      if (token) {
+        localStorage.setItem("token", token);
+        router.push("/patient");
+      }
+    } catch (error) {
+      console.error("Error creating patient:", error);
+    }
   };
 
   return (
@@ -75,17 +108,41 @@ export default function PatientForm() {
       </h2>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-        {/* First 4 Fields Using Map */}
+        {/* First Fields Using Map */}
         {basicFields.map((field) => (
-          <InputField
-            key={field.name}
-            label={field.label}
-            placeholder={field.placeholder}
-            type={field.type}
-            register={register(field.name)}
-            error={errors[field.name]}
-          />
+          <div key={field.name}>
+            <InputField
+              label={field.label}
+              placeholder={field.placeholder}
+              type={field.type}
+              register={register(field.name)}
+              error={errors[field.name]}
+            />
+
+           
+          </div>
         ))}
+        <>
+                <Controller
+                  name="gender"
+                  control={control}
+                  defaultValue=""
+                  render={({ field }) => (
+                    <SelectOptions
+                      label="Gender"
+                      name={field.name}
+                      value={field.value || ""}
+                      onChange={field.onChange}
+                      options={genderOptions}
+                      placeholder="Select gender"
+                      required
+                    />
+                  )}
+                />
+                <p className="text-red-500 text-xs mt-1">
+                  {errors.gender?.message as string}
+                </p>
+              </>
 
         {/* Image Upload */}
         <div className="justify-center text my-6">
@@ -117,6 +174,7 @@ export default function PatientForm() {
         >
           {isSubmitting ? "Saving..." : "Create Patient"}
         </button>
+
         <p className="text-center text-sm text-gray-600 mt-4">
           Already have an account?{" "}
           <a
