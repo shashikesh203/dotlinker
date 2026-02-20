@@ -83,7 +83,7 @@ export default function DoctorProfileCard({ doctor }: Props) {
             Joined {new Date(doctor.createdAt).toLocaleDateString()}
           </span>
           <button
-            className="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-indigo-600 hover:to-blue-600 transition text-white rounded-xl font-semibold shadow-md"
+            className="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-indigo-600 hover:to-blue-600 transition text-white rounded-xl font-semibold shadow-md cursor-pointer"
             onClick={() => {
               localStorage.removeItem("token");
               router.push("/auth/doctor-login");

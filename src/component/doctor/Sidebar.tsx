@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { MdDashboard } from 'react-icons/md';
 import { GiHealthNormal } from "react-icons/gi";
-import { IoMdLogOut } from 'react-icons/io';
 import { MdCoPresent } from "react-icons/md";
 import { MdOutlineHistoryEdu } from "react-icons/md";
 
