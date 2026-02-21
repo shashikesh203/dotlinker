@@ -1,5 +1,5 @@
-'use client';
-import { MdMenu } from 'react-icons/md';
+"use client";
+import { MdMenu } from "react-icons/md";
 
 interface NavbarProps {
   onMenuToggle: () => void;

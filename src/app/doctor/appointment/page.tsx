@@ -1,28 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import PatientAppointmentCard from "@/component/patient/PatientAppointmentCard";
 import axiosClient from "@/lib/axiosClient";
 import { BookingStatus } from "@/enums/bookingStatus";
 import DoctorAppointmentCard from "@/component/doctor/DoctorAppointmentCard";
 import SingleSelectOptions from "@/component/genericInput/SingleSelectOption";
-import { Controller } from "react-hook-form";
-
-interface PatientDetails {
-  name: string;
-  age?: number;
-  gender?: string;
-  patient_profile?: string;
-}
-
-interface Appointment {
-  _id: string;
-  doctorId: string;
-  patientId: string;
-  status: BookingStatus;
-  createdAt: string;
-  patientDetails: PatientDetails;
-}
+import { Appointment } from "@/types/doctor";
 
 export default function AppointmentPage() {
   const [appointments, setAppointments] = useState<Appointment[]>([]);

@@ -11,7 +11,7 @@ export const doctorValidationSchema = yup.object({
     .required("Email is required")
     .email("Enter a valid email"),
 
-   password: yup
+  password: yup
     .string()
     .required("Password is required")
     .min(8, "Password must be at least 8 characters")
@@ -21,33 +21,28 @@ export const doctorValidationSchema = yup.object({
     .matches(/[0-9]/, "Password must contain at least one number")
     .matches(
       /[!@#$%^&*(),.?":{}|<>]/,
-      "Password must contain at least one special character"
+      "Password must contain at least one special character",
     )
     .matches(/^\S*$/, "Password must not contain spaces"),
-  specialization: yup
-    .string()
-    .required("Specialization is required"),
+  specialization: yup.string().required("Specialization is required"),
 
-  startTime: yup
-    .string()
-    .required("Start time is required"),
+  startTime: yup.string().required("Start time is required"),
 
-  endTime: yup
-    .string()
-    .required("End time is required"),
+  endTime: yup.string().required("End time is required"),
 
   description: yup
     .string()
     .required("Description is required")
     .min(10, "Description must be at least 10 characters"),
 
-   doctor_profile: yup.mixed<File | string>()
-    .required('Image is required')
-    .test('fileType', 'Only jpg, jpeg, png allowed', value => {
-      if (typeof value === 'string') return true;
+  doctor_profile: yup
+    .mixed<File | string>()
+    .required("Image is required")
+    .test("fileType", "Only jpg, jpeg, png allowed", (value) => {
+      if (typeof value === "string") return true;
 
       if (value instanceof File) {
-        return ['image/jpeg', 'image/png', 'image/jpg'].includes(value.type);
+        return ["image/jpeg", "image/png", "image/jpg"].includes(value.type);
       }
 
       return false;

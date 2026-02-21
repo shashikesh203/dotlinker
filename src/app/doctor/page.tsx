@@ -3,17 +3,7 @@
 import { useEffect, useState } from "react";
 import DoctorProfileCard from "../../component/doctor/DoctorProfileCard";
 import axiosClient from "@/lib/axiosClient";
-
-interface DoctorProfile {
-  _id: string;
-  name: string;
-  email: string;
-  startTime: string;
-  endTime: string;
-  specialization: string;
-  description: string;
-  createdAt: string;
-}
+import { DoctorProfile } from "@/types/doctor";
 
 export default function Page() {
   const [doctor, setDoctor] = useState<DoctorProfile | null>(null);
@@ -25,7 +15,7 @@ export default function Page() {
       try {
         setLoading(true);
         const response = await axiosClient.get("get-doctor-details");
-        const result = response.data; 
+        const result = response.data;
         if (result.success) {
           setDoctor(result.data);
         } else {
@@ -49,11 +39,7 @@ export default function Page() {
         </div>
       )}
 
-      {error && (
-        <div className="text-red-500 font-medium text-lg">
-          {error}
-        </div>
-      )}
+      {error && <div className="text-red-500 font-medium text-lg">{error}</div>}
 
       {doctor && <DoctorProfileCard doctor={doctor} />}
     </div>

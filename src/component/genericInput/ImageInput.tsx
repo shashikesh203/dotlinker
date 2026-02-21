@@ -1,25 +1,10 @@
 import React, { useState, useEffect } from "react";
 
-type Variant = "doctor_profile" | "patient_signature";
-
-interface FileInputProps {
-  name: string;
-  className: string;
-  variant?: Variant;
-  formData: Record<string, any>;
-  setFormData: (data: Record<string, any>) => void;
-
-  // 🔹 RHF props added
-  value?: File | string | null; // ✅ string URL support added
-  onChange?: (file: File | null) => void;
-}
-
-const MAX_SIZE = 2 * 1024 * 1024; // 2MB
+import { FileInputProps } from "@/types/common";
 
 const ImageInput: React.FC<FileInputProps> = ({
   name,
   className,
-  variant = "file",
   formData,
   setFormData,
   value,

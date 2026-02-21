@@ -16,9 +16,7 @@ export default function PatientForm() {
   const [formData, setFormData] = useState<FormDataType>({
     patientImage: null,
   });
-
   const router = useRouter();
-
   const {
     register,
     handleSubmit,
@@ -28,14 +26,12 @@ export default function PatientForm() {
     resolver: yupResolver(patientValidationSchema),
   });
 
-  // Gender Options
   const genderOptions = [
     { label: "Male", value: "male" },
     { label: "Female", value: "female" },
     { label: "Other", value: "other" },
   ];
 
-  // Input Fields Config Array
   const basicFields = [
     {
       name: "name",
@@ -49,7 +45,7 @@ export default function PatientForm() {
       placeholder: "Enter patient email",
       type: "text",
     },
-    
+
     {
       name: "password",
       label: "Password",
@@ -64,7 +60,6 @@ export default function PatientForm() {
     },
   ] as const;
 
-  // Submit Handler
   const onSubmit = async (data: PatientFormData) => {
     const formDataObj = new FormData();
 
@@ -77,18 +72,13 @@ export default function PatientForm() {
         formDataObj.append(key, value as string);
       }
     });
-    console.log("Submitting Patient Form with data:", formDataObj);
 
     try {
-      const response = await axiosClient.post(
-        "patient-signup",
-        formDataObj,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const response = await axiosClient.post("patient-signup", formDataObj, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
       const token = response?.data?.data?.token;
 
@@ -108,7 +98,6 @@ export default function PatientForm() {
       </h2>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-        {/* First Fields Using Map */}
         {basicFields.map((field) => (
           <div key={field.name}>
             <InputField
@@ -118,33 +107,30 @@ export default function PatientForm() {
               register={register(field.name)}
               error={errors[field.name]}
             />
-
-           
           </div>
         ))}
         <div>
-                <Controller
-                  name="gender"
-                  control={control}
-                  defaultValue=""
-                  render={({ field }) => (
-                    <SingleSelectOptions
-                      label="Gender"
-                      name={field.name}
-                      value={field.value || ""}
-                      onChange={field.onChange}
-                      options={genderOptions}
-                      placeholder="Select gender"
-                      required
-                    />
-                  )}
-                />
-                <p className="text-red-500 text-xs mt-1">
-                  {errors.gender?.message as string}
-                </p>
-              </div>
+          <Controller
+            name="gender"
+            control={control}
+            defaultValue=""
+            render={({ field }) => (
+              <SingleSelectOptions
+                label="Gender"
+                name={field.name}
+                value={field.value || ""}
+                onChange={field.onChange}
+                options={genderOptions}
+                placeholder="Select gender"
+                required
+              />
+            )}
+          />
+          <p className="text-red-500 text-xs mt-1">
+            {errors.gender?.message as string}
+          </p>
+        </div>
 
-        {/* Image Upload */}
         <div className="justify-center text my-6">
           <Controller
             name="patient_profile"
@@ -166,7 +152,6 @@ export default function PatientForm() {
           </p>
         </div>
 
-        {/* Submit */}
         <button
           disabled={isSubmitting}
           type="submit"

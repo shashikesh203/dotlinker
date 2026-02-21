@@ -4,29 +4,13 @@ import axiosClient from "@/lib/axiosClient";
 import { useState } from "react";
 import { FaUserMd, FaClock, FaEnvelope } from "react-icons/fa";
 import { GoProjectRoadmap } from "react-icons/go";
-import { LiaBirthdayCakeSolid } from "react-icons/lia";
-import { toast } from "react-toastify";
+import { DoctorBookingProps } from "@/types/patient";
 
-interface Doctor {
-  _id: string;
-  name: string;
-  specialization: string;
-  startTime: string;
-  endTime: string;
-  doctor_profile?: string;
-  email?: string;
-  description?: string;
-}
-
-interface Props {
-  doctor: Doctor;
-  handleBookingSuccess: (showSuccessBooking: boolean) => void;
-}
 
 export default function DoctorBookingCard({
   doctor,
   handleBookingSuccess,
-}: Props) {
+}: DoctorBookingProps) {
   const [loading, setLoading] = useState(false);
   const handleBooking = async () => {
     const token = localStorage.getItem("token");
@@ -51,11 +35,9 @@ export default function DoctorBookingCard({
 
   return (
     <div className="bg-white rounded-3xl shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden">
-      {/* Top Gradient Strip */}
       <div className="h-2 bg-gradient-to-r from-blue-600 to-indigo-600"></div>
 
       <div className="p-6">
-        {/* Doctor Header */}
         <div className="flex items-center gap-4">
           <div className="w-16 h-16 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center border">
             {doctor.doctor_profile ? (
@@ -81,14 +63,12 @@ export default function DoctorBookingCard({
           </div>
         </div>
 
-        {/* Description */}
         {doctor.description && (
           <p className="mt-4 text-sm text-gray-600 leading-relaxed line-clamp-2">
             {doctor.description}
           </p>
         )}
 
-        {/* Availability */}
         <div className="mt-4 space-y-2 text-sm text-gray-600">
           <div className="flex items-center gap-2">
             <FaClock className="text-green-500" />
@@ -105,7 +85,6 @@ export default function DoctorBookingCard({
           )}
         </div>
 
-        {/* CTA */}
         <button
           onClick={handleBooking}
           disabled={loading}

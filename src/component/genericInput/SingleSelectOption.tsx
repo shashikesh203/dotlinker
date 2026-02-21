@@ -1,21 +1,6 @@
+import { SingleSelectOptionsProps } from "@/types/common";
 import React from "react";
 
-export type Option = {
-  label: string;
-  value: string | number;
-};
-
-type SingleSelectOptionsProps = {
-  label?: string;
-  name: string;
-  value: any;
-  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
-  options: Option[];
-  placeholder?: string;
-  required?: boolean;
-  disabled?: boolean;
-  className?: string;
-};
 
 export default function SingleSelectOptions({
   label,
@@ -64,10 +49,10 @@ export default function SingleSelectOptions({
           )}
 
           {options
-            .filter((opt) => opt.value !== undefined && opt.value !== null) // ✅ safe filter
+            .filter((opt) => opt.value !== undefined && opt.value !== null)
             .map((opt, index) => (
               <option
-                key={opt.value !== undefined ? String(opt.value) : index} // ✅ fallback key
+                key={opt.value !== undefined ? String(opt.value) : index}
                 value={opt.value || ""}
               >
                 {opt.label || ""}

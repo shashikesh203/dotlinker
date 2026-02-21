@@ -1,9 +1,8 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import Sidebar from '@/component/doctor/Sidebar';
-import Navbar from '@/component/genericInput/Navbar';
-
+import { useState } from "react";
+import Sidebar from "@/component/doctor/Sidebar";
+import Navbar from "@/component/genericInput/Navbar";
 
 export default function DashboardLayout({
   children,

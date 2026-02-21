@@ -5,25 +5,8 @@ import PatientAppointmentCard from "@/component/patient/PatientAppointmentCard";
 import axiosClient from "@/lib/axiosClient";
 import { BookingStatus } from "@/enums/bookingStatus";
 import SingleSelectOptions from "@/component/genericInput/SingleSelectOption";
+import { Appointment } from "@/types/patient";
 
-interface DoctorDetails {
-  name: string;
-  specialization: string;
-  startTime: string;
-  endTime: string;
-  doctor_profile?: string;
-  email?: string;
-  description?: string;
-}
-
-interface Appointment {
-  _id: string;
-  doctorId: string;
-  patientId: string;
-  status: BookingStatus;
-  createdAt: string;
-  doctorDetails: DoctorDetails;
-}
 
 export default function AppointmentPage() {
   const [appointments, setAppointments] = useState<Appointment[]>([]);

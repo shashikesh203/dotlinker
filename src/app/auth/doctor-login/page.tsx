@@ -3,21 +3,16 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-
 import InputField from "@/component/genericInput/InputField";
-
 import { LoginFormData } from "@/types/common";
 import { loginValidationSchema } from "@/validation/loginSchema";
-
-import { FaEye, FaEyeSlash } from "react-icons/fa"; // ✅ React Icons
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import axiosClient from "@/lib/axiosClient";
 import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
-  //  Toggle Password State
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
-
   const {
     register,
     handleSubmit,
@@ -26,24 +21,20 @@ export default function LoginForm() {
     resolver: yupResolver(loginValidationSchema),
   });
 
-  // Submit Handler
-const onSubmit = async (data: LoginFormData) => {
-  try {
-    const response = await axiosClient.post("doctor-signin", data);
+  const onSubmit = async (data: LoginFormData) => {
+    try {
+      const response = await axiosClient.post("doctor-signin", data);
 
-    // 👇 IMPORTANT (backend structure ke according)
-    const token = response?.data?.data?.token;
+      const token = response?.data?.data?.token;
 
-    if (token) {
-      localStorage.setItem("token", token);
-      // Redirect after login
-      router.push("/doctor");
+      if (token) {
+        localStorage.setItem("token", token);
+        router.push("/doctor");
+      }
+    } catch (error: any) {
+      console.error("Login Failed:", error?.response?.data?.message);
     }
-  } catch (error: any) {
-    console.error("Login Failed:", error?.response?.data?.message);
-  }
-};
-
+  };
 
   return (
     <div className="max-w-xl mx-auto mt-16 bg-white shadow-xl rounded-2xl p-8">
@@ -52,7 +43,6 @@ const onSubmit = async (data: LoginFormData) => {
       </h2>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-        {/* Email Field */}
         <InputField
           label="Email Address"
           placeholder="Enter your email"
@@ -61,7 +51,6 @@ const onSubmit = async (data: LoginFormData) => {
           error={errors.email}
         />
 
-        {/* Password Field with Eye Icon */}
         <div>
           <label className="block mb-1 font-medium text-gray-700">
             Password
@@ -75,7 +64,6 @@ const onSubmit = async (data: LoginFormData) => {
               className="w-full border rounded-xl px-4 py-3 pr-12 focus:ring-2 focus:ring-blue-500 outline-none"
             />
 
-            {/* Eye Button Perfect Center */}
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
@@ -85,7 +73,6 @@ const onSubmit = async (data: LoginFormData) => {
             </button>
           </div>
 
-          {/* Error */}
           {errors.password && (
             <p className="text-red-500 text-sm mt-1">
               {errors.password.message}
@@ -93,7 +80,6 @@ const onSubmit = async (data: LoginFormData) => {
           )}
         </div>
 
-        {/* Submit Button */}
         <button
           disabled={isSubmitting}
           type="submit"
@@ -101,7 +87,7 @@ const onSubmit = async (data: LoginFormData) => {
         >
           {isSubmitting ? "Logging in..." : "Login"}
         </button>
-        {/* Register Redirect */}
+
         <p className="text-center text-sm text-gray-600 mt-4">
           Don’t have an account?{" "}
           <a

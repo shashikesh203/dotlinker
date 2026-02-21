@@ -6,28 +6,10 @@ import { useState } from "react";
 import { FaUserMd, FaClock, FaEnvelope } from "react-icons/fa";
 import { GoProjectRoadmap } from "react-icons/go";
 import { toast } from "react-toastify";
+import { AppointmentProps } from "@/types/patient";
 
-interface Appointment {
-  _id: string;
-  doctorId: string;
-  doctorDetails: {
-    name: string;
-    specialization: string;
-    startTime: string;
-    endTime: string;
-    email?: string;
-    description?: string;
-    doctor_profile?: string;
-  };
-  status: BookingStatus;
-}
 
-interface Props {
-  key: string;
-  appointment: Appointment;
-}
-
-export default function PatientAppointmentCard({ appointment }: Props) {
+export default function PatientAppointmentCard({ appointment }: AppointmentProps) {
   const [loading, setLoading] = useState(false);
   const [bookingStatus, setBookingStatus] = useState(appointment.status);
 
@@ -49,13 +31,10 @@ export default function PatientAppointmentCard({ appointment }: Props) {
 
   return (
     <div className="bg-white rounded-3xl shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden flex flex-col">
-      {/* Top gradient */}
       <div className="h-2 bg-gradient-to-r from-blue-600 to-indigo-600"></div>
 
-      {/* Card Content */}
       <div className="p-6 flex-1 flex flex-col justify-between">
         <div>
-          {/* Doctor Header */}
           <div className="flex items-center gap-4">
             <div className="w-16 h-16 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center border">
               {doctor.doctor_profile ? (
@@ -81,12 +60,10 @@ export default function PatientAppointmentCard({ appointment }: Props) {
             </div>
           </div>
 
-          {/* Description */}
           <p className="mt-4 text-sm text-gray-600 leading-relaxed line-clamp-2 min-h-[2.5rem]">
             {doctor.description || "No description available."}
           </p>
 
-          {/* Availability */}
           <div className="mt-4 space-y-2 text-sm text-gray-600">
             <div className="flex items-center gap-2">
               <FaClock className="text-green-500" />
@@ -103,7 +80,6 @@ export default function PatientAppointmentCard({ appointment }: Props) {
             )}
           </div>
 
-          {/* Status */}
           <div className="mt-4">
             <span
               className={`text-xs px-3 py-1 rounded-full font-medium ${
@@ -120,7 +96,6 @@ export default function PatientAppointmentCard({ appointment }: Props) {
           </div>
         </div>
 
-        {/* CTA Button */}
         <div className="mt-6">
           {bookingStatus === BookingStatus.PENDING ? (
             <button

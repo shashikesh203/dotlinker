@@ -3,15 +3,7 @@
 import { useEffect, useState } from "react";
 import axiosClient from "@/lib/axiosClient";
 import PatientProfileCard from "@/component/patient/PatientProfileCard";
-
-interface PatientProfile {
-  _id: string;
-  name: string;
-  email: string;
-  age: number;
-  patient_profile?: string;
-  createdAt: string;
-}
+import { PatientProfile } from "@/types/patient";
 
 export default function Page() {
   const [patient, setPatient] = useState<PatientProfile | null>(null);
@@ -43,18 +35,13 @@ export default function Page() {
 
   return (
     <div className=" bg-gray-50 flex items-center justify-center p-5">
-      
       {loading && (
         <div className="text-blue-600 font-medium text-lg animate-pulse">
           Loading patient profile...
         </div>
       )}
 
-      {error && (
-        <div className="text-red-500 font-medium text-lg">
-          {error}
-        </div>
-      )}
+      {error && <div className="text-red-500 font-medium text-lg">{error}</div>}
 
       {patient && <PatientProfileCard patient={patient} />}
     </div>

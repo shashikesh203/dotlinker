@@ -49,7 +49,7 @@ export default function DoctorForm() {
       type: "password",
     },
   ] as const;
- 
+
   const onSubmit = async (data: DoctorFormData) => {
     const formDataObj = new FormData();
 
@@ -73,7 +73,6 @@ export default function DoctorForm() {
 
       if (token) {
         localStorage.setItem("token", token);
-        // Redirect after login
         router.push("/doctor");
       }
     } catch (error) {
@@ -88,7 +87,6 @@ export default function DoctorForm() {
       </h2>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-        {/* First 4 Fields Using Map */}
         {basicFields.map((field) => (
           <InputField
             key={field.name}
@@ -100,31 +98,30 @@ export default function DoctorForm() {
           />
         ))}
         <div>
-  <Controller
-    name="specialization"
-    control={control}
-    defaultValue=""
-    render={({ field }) => (
-      <SingleSelectOptions
-        label="Doctor Specialization"
-        name={field.name}
-        value={field.value || ""}
-        onChange={field.onChange}
-        options={Object.values(DoctorSpecialization).map((spec) => ({
-          label: spec,
-          value: spec,
-        }))}
-        placeholder="Select specialization"
-        required
-      />
-    )}
-  />
-  <p className="text-red-500 text-xs mt-1">
-    {errors.specialization?.message as string}
-  </p>
-</div>
+          <Controller
+            name="specialization"
+            control={control}
+            defaultValue=""
+            render={({ field }) => (
+              <SingleSelectOptions
+                label="Doctor Specialization"
+                name={field.name}
+                value={field.value || ""}
+                onChange={field.onChange}
+                options={Object.values(DoctorSpecialization).map((spec) => ({
+                  label: spec,
+                  value: spec,
+                }))}
+                placeholder="Select specialization"
+                required
+              />
+            )}
+          />
+          <p className="text-red-500 text-xs mt-1">
+            {errors.specialization?.message as string}
+          </p>
+        </div>
 
-        {/* Start & End Time */}
         <div className="grid grid-cols-2 gap-4">
           <TimeInputField
             label="Start Time"
@@ -140,8 +137,6 @@ export default function DoctorForm() {
             error={errors.endTime}
           />
         </div>
-
-        {/* Description */}
         <div>
           <label className="block font-medium">Description</label>
           <textarea
@@ -153,7 +148,6 @@ export default function DoctorForm() {
           <p className="text-red-500 text-sm">{errors.description?.message}</p>
         </div>
 
-        {/* Image Upload */}
         <div className="justify-center text my-6">
           <Controller
             name="doctor_profile"
@@ -175,7 +169,6 @@ export default function DoctorForm() {
           </p>
         </div>
 
-        {/* Submit */}
         <button
           disabled={isSubmitting}
           type="submit"

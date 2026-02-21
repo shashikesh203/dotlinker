@@ -6,15 +6,7 @@ import axiosClient from "@/lib/axiosClient";
 import BookingSuccess from "@/component/common/BookingSuccess";
 import SingleSelectOptions from "@/component/genericInput/SingleSelectOption";
 import { DoctorSpecialization } from "@/enums/doctorSpecialization";
-
-interface Doctor {
-  _id: string;
-  name: string;
-  specialization: string;
-  startTime: string;
-  endTime: string;
-  doctor_profile?: string;
-}
+import { Doctor } from "@/types/patient";
 
 export default function DoctorsPage() {
   const [doctors, setDoctors] = useState<Doctor[]>([]);
@@ -26,7 +18,7 @@ export default function DoctorsPage() {
       const query = specialization ? `?specialization=${specialization}` : "";
       const res = await axiosClient.get(`get-doctors${query}`);
       const data = res.data;
-      setDoctors(data.data); // assuming array
+      setDoctors(data.data);
     } catch (error) {
       console.error(error);
     } finally {
