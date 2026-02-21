@@ -40,10 +40,7 @@ export default function DoctorsPage() {
 
   if (showSuccessBooking) {
     return (
-      <BookingSuccess
-        doctorName={doctors[0].name}
-        slot={`${doctors[0].startTime} - ${doctors[0].endTime}`}
-      />
+      <BookingSuccess />
     );
   }
   return (

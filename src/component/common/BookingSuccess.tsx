@@ -2,12 +2,8 @@
 
 import { FaCheckCircle } from "react-icons/fa";
 import { useRouter } from "next/navigation";
-import { BookingSuccessProps } from "@/types/patient";
 
-export default function BookingSuccess({
-  doctorName,
-  slot,
-}: BookingSuccessProps) {
+export default function BookingSuccess() {
   const router = useRouter();
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 pointer-events-none">
@@ -19,9 +15,7 @@ export default function BookingSuccess({
           Booking Confirmed!
         </h2>
         <p className="text-gray-600 mb-4">
-          Your appointment with{" "}
-          <span className="font-semibold">{doctorName}</span> at{" "}
-          <span className="font-semibold">{slot}</span> has been successfully
+          Your appointment has been successfully
           booked.
         </p>
 

@@ -46,10 +46,6 @@ export interface PatientProfile {
   createdAt: string;
 }
 
-export interface BookingSuccessProps {
-  doctorName: string;
-  slot: string;
-}
 
 export interface PatientAppointment {
   _id: string;
