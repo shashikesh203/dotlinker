@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import InputField from "@/component/genericInput/InputField";
@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
+  const [checkingAuth, setCheckingAuth] = useState(true);
   const router = useRouter();
   const {
     register,
@@ -35,6 +36,19 @@ export default function LoginForm() {
       console.error("Login Failed:", error?.response?.data?.message);
     }
   };
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      router.push("/doctor");
+    } else {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setCheckingAuth(false);
+    }
+  }, [router]);
+
+  if (checkingAuth) return null;
 
   return (
     <div className="max-w-xl mx-auto mt-16 bg-white shadow-xl rounded-2xl p-8">
