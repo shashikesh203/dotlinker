@@ -47,13 +47,6 @@ export default function PatientForm() {
       placeholder: "Enter patient email",
       type: "text",
     },
-
-    {
-      name: "password",
-      label: "Password",
-      placeholder: "Enter password",
-      type: "password",
-    },
     {
       name: "age",
       label: "Age",
