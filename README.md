@@ -10,6 +10,8 @@ git clone https://github.com/shashikesh203/dotlinker.git
 cd dotlinker
 open repo in any editor
 
+git checkout dev (Switch to dev branch)
+
 ## Step 2: Set Up Environment Variables
 Create a .env file in the root directory.
 Option A: Copy from example file
