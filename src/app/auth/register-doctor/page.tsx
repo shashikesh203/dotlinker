@@ -29,7 +29,6 @@ export default function DoctorForm() {
     resolver: yupResolver(doctorValidationSchema),
   });
 
-  // Input Fields Config Array (Industry Standard)
   const basicFields = [
     {
       name: "name",
@@ -51,8 +50,6 @@ export default function DoctorForm() {
     },
   ] as const;
  
-
-  // Submit Handler
   const onSubmit = async (data: DoctorFormData) => {
     const formDataObj = new FormData();
 
