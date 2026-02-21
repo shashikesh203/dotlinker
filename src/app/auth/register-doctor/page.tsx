@@ -13,8 +13,10 @@ import axiosClient from "@/lib/axiosClient";
 import { useRouter } from "next/navigation";
 import SingleSelectOptions from "@/component/genericInput/SingleSelectOption";
 import { DoctorSpecialization } from "@/enums/doctorSpecialization";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 export default function DoctorForm() {
+   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState<FormDataType>({
     doctorImage: null,
   });
@@ -42,17 +44,11 @@ export default function DoctorForm() {
       placeholder: "Enter doctor email",
       type: "text",
     },
-    {
-      name: "password",
-      label: "Password",
-      placeholder: "Enter password",
-      type: "password",
-    },
   ] as const;
 
   const onSubmit = async (data: DoctorFormData) => {
     const formDataObj = new FormData();
-
+  
     Object.entries(data).forEach(([key, value]) => {
       if (key === "doctor_profile" && value instanceof FileList) {
         if (value.length > 0) {
@@ -97,6 +93,34 @@ export default function DoctorForm() {
             error={errors[field.name]}
           />
         ))}
+         <div>
+                  <label className="block mb-1 font-medium text-gray-700">
+                    Password
+                  </label>
+        
+                  <div className="relative">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      placeholder="Enter your password"
+                      {...register("password")}
+                      className="w-full border rounded-xl px-4 py-3 pr-12 focus:ring-2 focus:ring-blue-500 outline-none"
+                    />
+        
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-800"
+                    >
+                      {showPassword ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
+                    </button>
+                  </div>
+        
+                  {errors.password && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.password.message}
+                    </p>
+                  )}
+                </div>
         <div>
           <Controller
             name="specialization"
