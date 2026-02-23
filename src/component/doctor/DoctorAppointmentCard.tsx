@@ -55,7 +55,7 @@ export default function DoctorAppointmentCard({ appointment }: Props) {
 
               <div className="flex items-center gap-2 mt-2 text-sm bg-blue-50 text-blue-700 px-3 py-1 rounded-full w-fit shadow-sm">
                 <LiaBirthdayCakeSolid className="text-blue-500" />
-                <span>{patient.age || "N/A"} years old</span>
+                <span>{patient.age || "N/A"}</span>
               </div>
             </div>
           </div>

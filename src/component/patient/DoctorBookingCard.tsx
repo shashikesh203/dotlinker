@@ -58,7 +58,7 @@ export default function DoctorBookingCard({
 
             <div className="flex items-center gap-2 mt-2 text-sm bg-blue-50 text-blue-700 px-3 py-1 rounded-full w-fit shadow-sm">
               <GoProjectRoadmap className="text-blue-500" />
-              <span>{doctor.specialization || "N/A"} years old</span>
+              <span>{doctor.specialization || "N/A"}</span>
             </div>
           </div>
         </div>
